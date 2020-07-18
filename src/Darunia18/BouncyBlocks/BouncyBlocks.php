@@ -36,52 +36,40 @@ class BouncyBlocks extends PluginBase implements Listener{
         $this->saveConfig();
     }
 
-    public function onCommand(CommandSender $sender, Command $command, $label, array $args) : bool{
-        switch($command->getName()){
+    public function onCommand(CommandSender $sender, Command $command, $label, array $args) : bool
+    {
+        switch ($command->getName()) {
             case "bounce":
-                if(isset($args[0])){
-                    switch($args[0]){
+                if (isset($args[0])) {
+                    switch ($args[0]) {
 
                         case "false":
                             $this->disabled->attach($sender);
                             $sender->sendMessage("You will no longer bounce on blocks");
                             return true;
-                            break;
 
                         case "true":
                             $this->disabled->detach($sender);
                             $sender->sendMessage("You will now bounce on blocks");
                             return true;
-                            break;
 
                         default:
                             $sender->sendMessage("Usage: /bounce <true|false>");
                             return true;
-                            break;
                     }
-                }
-                else{
+                } else {
                     $sender->sendMessage("Usage: /bounce <true|false>");
                     return true;
                 }
                 break;
-
-            default:
-                return false;
         }
     }
+    public function onEntityDamage(Player $player, EntityDamageEvent $event){
 
-    public function onEntityDamage(EntityDamageEvent $event){
-
-        if($event->getEntity() instanceof Player){
-            $player = $event->getEntity();
-
-            if(isset($this->fall[$player]) && $event->getCause() == 4 && (!$player->hasPermission("bouncyblocks.takedamage") || $player->isOp())){
+            if($event->getEntity() instanceof Player && isset($this->fall[$player]) && $event->getCause()===EntityDamageEvent::CAUSE_FALL && (!$player->hasPermission("bouncyblocks.takedamage") || $player->isOp())){
                 $event->setCancelled();
-            }
         }
     }
-
     public function onPlayerMove(PlayerMoveEvent $event){
         $player = $event->getPlayer();
 
