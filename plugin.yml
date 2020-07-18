@@ -1,11 +1,9 @@
 name: BouncyBlocks
 main: Darunia18\BouncyBlocks\BouncyBlocks
-version: 1.1
-api: 1.9.0
-author: Darunia18
+version: 1.1.1
+api: 3.0.0
+author: Darunia18, Slight updates by BlazingOne
 description: Bounce on any block as if it were a trampoline.
-load: POSTWORLD
-website: https://github.com/Darunia18/BouncyBlocks
 
 commands:
     bounce:

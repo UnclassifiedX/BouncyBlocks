@@ -8,6 +8,5 @@ max: 3
 # Please use block IDs for the blocks you would like to be used.
 # Block names will be added in a later update.
 blocks:
-    - 26
     - 99
     - 100

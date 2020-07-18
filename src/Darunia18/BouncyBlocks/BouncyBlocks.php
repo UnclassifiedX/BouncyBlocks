@@ -36,7 +36,7 @@ class BouncyBlocks extends PluginBase implements Listener{
         $this->saveConfig();
     }
 
-    public function onCommand(CommandSender $sender, Command $command, $label, array $args){
+    public function onCommand(CommandSender $sender, Command $command, $label, array $args) : bool{
         switch($command->getName()){
             case "bounce":
                 if(isset($args[0])){
@@ -86,7 +86,7 @@ class BouncyBlocks extends PluginBase implements Listener{
         $player = $event->getPlayer();
 
         if($player->hasPermission("bouncyblocks.bounce") && !isset($this->disabled[$player])){
-            $block = $player->getLevel()->getBlockIdAt($player->x, ($player->y -0.1), $player->z);
+            $block = $player->getLevel()->getBlockIdAt($player->x-1, ($player->y -0.1), $player->z);
 
             if($block != 0 && in_array($block, $this->blocks)){
 
@@ -99,7 +99,7 @@ class BouncyBlocks extends PluginBase implements Listener{
                 }
 
                 $this->fall->attach($player);
-                $motion = new Vector3($player->motionX, $player->motionY, $player->motionZ);
+                $motion = new Vector3($player->getMotion()->getX(), $player->getMotion()->getY(), $player->getMotion()->getZ());
                 $motion->y = $this->bounceVelocity[$player];
                 $player->setMotion($motion);
             }
