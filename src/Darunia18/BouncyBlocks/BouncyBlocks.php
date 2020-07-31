@@ -11,6 +11,7 @@ use pocketmine\math\Vector3;
 use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 
+
 class BouncyBlocks extends PluginBase implements Listener{
 
     private $max;
@@ -19,6 +20,8 @@ class BouncyBlocks extends PluginBase implements Listener{
     public $fall;
     public $bounceVelocity;
     public $disabled;
+    public $player;
+    public $p;
 
     public function onEnable(){
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
@@ -32,7 +35,8 @@ class BouncyBlocks extends PluginBase implements Listener{
         $this->disabled = new \SplObjectStorage();
     }
 
-    public function onDisable(){
+    public function onDisable()
+    {
         $this->saveConfig();
     }
 
@@ -64,17 +68,23 @@ class BouncyBlocks extends PluginBase implements Listener{
                 break;
         }
     }
-    public function onEntityDamage(Player $player, EntityDamageEvent $event){
-
-            if($event->getEntity() instanceof Player && isset($this->fall[$player]) && $event->getCause()===EntityDamageEvent::CAUSE_FALL && (!$player->hasPermission("bouncyblocks.takedamage") || $player->isOp())){
-                $event->setCancelled();
-        }
+    public function Player (Player $pg) {
+        global $p;
+        $p = $pg;
     }
+    public function onEntityDamage(EntityDamageEvent $event){
+    $player = $event->getEntity();
+            if($event->getEntity() instanceof Player) {
+                if (isset($this->fall[$player]) && $event->getCause()===EntityDamageEvent::CAUSE_FALL ){
+                    $event->setCancelled();
+                }
+       }
+   }
     public function onPlayerMove(PlayerMoveEvent $event){
         $player = $event->getPlayer();
 
         if($player->hasPermission("bouncyblocks.bounce") && !isset($this->disabled[$player])){
-            $block = $player->getLevel()->getBlockIdAt($player->x-1, ($player->y -0.1), $player->z);
+            $block = $player->getLevel()->getBlockIdAt(($player->x -1), ($player->y -0.1), ($player->z));
 
             if($block != 0 && in_array($block, $this->blocks)){
 
