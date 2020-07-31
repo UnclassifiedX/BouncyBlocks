@@ -20,8 +20,6 @@ class BouncyBlocks extends PluginBase implements Listener{
     public $fall;
     public $bounceVelocity;
     public $disabled;
-    public $player;
-    public $p;
 
     public function onEnable(){
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
@@ -67,11 +65,9 @@ class BouncyBlocks extends PluginBase implements Listener{
                 }
                 break;
         }
+        return false;
     }
-    public function Player (Player $pg) {
-        global $p;
-        $p = $pg;
-    }
+
     public function onEntityDamage(EntityDamageEvent $event){
     $player = $event->getEntity();
             if($event->getEntity() instanceof Player) {
